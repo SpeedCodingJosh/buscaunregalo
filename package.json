@@ -1,0 +1,25 @@
+{
+  "name": "buscaunregalo",
+  "version": "0.0.1",
+  "description": "REST API para página de regalos",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SpeedCodingJosh/buscaunregalo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SpeedCodingJosh/buscaunregalo/issues"
+  },
+  "homepage": "https://github.com/SpeedCodingJosh/buscaunregalo#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1"
+  }
+}
