@@ -17,14 +17,14 @@ class Server {
     constructor() {
         this.app = express();
         this.port = process.env.PORT || 3000;
-        this.userPath = 'api/'
+
         this.middlewares();
         this.routes();
     }
 
     middlewares () {
         this.app.set('view engine', 'hbs');
-        hbs.registerPartials(`${__dirname}/views/partials`);
+        hbs.registerPartials(`${__dirname}/../views/partials`);
 
         this.app.use(express.static('public'));
         this.app.use(express.json());
@@ -33,6 +33,8 @@ class Server {
     }
 
     routes () {
+        this.app.use('/', require('../routes/webRoutes'));
+        this.app.use('/api/auth', require('../routes/auth'));
         this.app.use('/api/user', require('../routes/user'));
     }
 
