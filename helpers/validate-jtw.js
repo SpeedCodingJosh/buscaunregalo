@@ -23,7 +23,7 @@ const validateJWT =  (req, res = response, next) => {
             }
     
             // Login
-            const getUser = `SELECT id, name, username, email, img, sub, visible FROM users WHERE username = '${username}' AND visible = 1`;
+            const getUser = `SELECT username, visible FROM users WHERE username = '${username}' AND visible = 1`;
             conn.query(getUser, (err, rows) => {
                 
                 if(err) {

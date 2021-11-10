@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { validateJWT } = require('../helpers/validate-jtw');
+const { isAuthenticated } = require('../helpers/isAuthenticated');
 
 const router = Router();
 
@@ -7,16 +7,12 @@ router.get('/', (req, res) => {
     res.render('home');
 });
 
-router.get('/login', (req, res) => {
-    res.render('login');
-});
-
-router.get('/register', (req, res) => {
-    res.render('register');
-});
-
-router.get('/profile', [ validateJWT ], (req, res) => {
+router.get('/profile', [ isAuthenticated ], (req, res) => {
     res.render('profile');
+});
+
+router.get('/server/error', (req, res) => {
+    res.render('server-error');
 });
 
 module.exports = router;

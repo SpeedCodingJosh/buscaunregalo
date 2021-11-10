@@ -2,56 +2,63 @@ const bcryptjs = require('bcryptjs');
 const { generateJWT } = require('../helpers/generate-jwt');
 
 const login = async (req, res) => {
-    const { username, password } = req.body;
+    
+    try {
+        const { username, password } = req.body;
 
-    req.getConnection((err, conn) => {
+        req.getConnection((err, conn) => {
 
-        if(err) {
-            console.log(`Error loging user: ${err}`);
-            return res.json({code: 500, error: err});
-        }
-
-        // Login
-        const loginUser = `SELECT id, name, username, pass, email, img, sub, visible FROM users WHERE ((username = '${username}') XOR (email = '${username}')) AND visible = 1`;
-        conn.query(loginUser, async (err, rows) => {
-            
             if(err) {
-                console.log(err);
-                return res.json({code: 500, error: err});
+                console.log(`Error loging user: ${err}`);
+                return res.redirect(500, '/server/error');
             }
 
-            if(rows.length > 0) {
-                // Compare passwords
-                if(!bcryptjs.compareSync(`${password}${process.env.PASSCRYPT}`, rows[0].pass)) {
-                    return res.json({
-                        code: 404,
-                        msg: 'El usuario o la contraseña no son correctas o el usuario no existe.',
+            // Login
+            const loginUser = `SELECT id, name, username, pass, email, img, sub, visible FROM users WHERE ((username = '${username}') XOR (email = '${username}')) AND visible = 1`;
+            conn.query(loginUser, async (err, rows) => {
+                
+                if(err) {
+                    console.log(err);
+                    return res.redirect(500, '/server/error');
+                }
+
+                if(rows.length > 0) {
+                    // Compare passwords
+                    if(!bcryptjs.compareSync(`${password}${process.env.PASSCRYPT}`, rows[0].pass)) {
+                        return res.render('login', {
+                            errorCode: 'Usuario o contraseña incorrecta'
+                        });
+                    }
+
+                    // Map result
+                    const result = rows.map(({ id, name, username, email, img, sub }) => ({ id, name, username, email, img, sub }));
+
+                    // Generate web token
+                    const token = await generateJWT(result[0].username);
+
+                    const cookieOptions = {
+                        expires: new Date(Date.now() + process.env.SECRET_JWT_COOKIE_EXPIRATION * 24 * 60 * 60 * 1000),
+                        httpOnly: true
+                    };
+
+                    res.cookie('jwt', token, cookieOptions);
+
+                    return res.redirect('/profile');
+                }
+
+                else {
+                    return res.render('login', {
+                        errorCode: 'Usuario o contraseña incorrecta'
                     });
                 }
 
-                // Map result
-                const result = rows.map(({ id, name, username, email, img, sub }) => ({ id, name, username, email, img, sub }));
-
-                // Generate web token
-                const token = await generateJWT(result[0].username);
-
-                return res.json({
-                    code: 200,
-                    token,
-                    result
-                });
-            }
-
-            else {
-                return res.json({
-                    code: 404,
-                    rows
-                });
-            }
-
+            });
         });
-    });
-
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).redirect('/login');
+    }
 };
 
 const register = (req, res) => {

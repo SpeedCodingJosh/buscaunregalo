@@ -3,6 +3,7 @@ const mysql = require('mysql');
 const myconn = require('express-myconnection');
 const cors = require('cors');
 const hbs = require('hbs');
+const cookieParser = require('cookie-parser');
 
 const databaseOptions = {
     host: process.env.DB_HOST,
@@ -27,15 +28,17 @@ class Server {
         hbs.registerPartials(`${__dirname}/../views/partials`);
 
         this.app.use(express.static('public'));
+        this.app.use(express.urlencoded({extended:false}));
         this.app.use(express.json());
+        this.app.use(cookieParser());
         this.app.use(cors());
         this.app.use(myconn(mysql, databaseOptions, 'single'));
     }
 
     routes () {
         this.app.use('/', require('../routes/webRoutes'));
-        this.app.use('/api/auth', require('../routes/auth'));
-        this.app.use('/api/user', require('../routes/user'));
+        this.app.use('/', require('../routes/auth'));
+        this.app.use('/user', require('../routes/user'));
     }
 
     listen () {
