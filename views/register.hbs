@@ -35,5 +35,18 @@
             </form>
         </div>
     </div>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{#if alert}}
+        <script>
+            Swal.fire({
+                title: '{{{ alertTitle }}}',
+                text: '{{{ alertMessage }}}',
+                icon: '{{{ alertIcon }}}',
+                showConfirmButton: {{ showConfirmButton }},
+                timer: {{ timer }},
+            }).then(() => {
+            });
+        </script>
+    {{/if}}
 </body>
 </html>
