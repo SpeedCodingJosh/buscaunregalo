@@ -7,23 +7,23 @@
     <div class="mx-auto overflow-x-hidden">
         {{> navbar }}
         <div class="login-panel w-screen h-screen flex flex-col justify-center items-center md:my-5">
-            <form class="flex flex-col justify-center items-center absolute bg-white rounded-t-3xl rounded-b-3xl bg-opacity-100 shadow-2xl bg-white w-96 md:h-80 md:w-10/12 lg:w-2/4 lg:top-44 lg:p-80 lg:pb-96">
+            <form action="/register" method="POST"  class="flex flex-col justify-center items-center absolute bg-white rounded-t-3xl rounded-b-3xl bg-opacity-100 shadow-2xl bg-white w-96 md:h-80 md:w-10/12 lg:w-2/4 lg:top-44 lg:p-80 lg:pb-96">
                 <img src="assets/img/undraw_male_avatar_323b.svg" class="w-36 mt-5 md:mt-14 lg:mt-16 md:absolute md:left-20 md:w-36 md:-top-10 lg:w-52 lg:left-auto">
                 <h2 class="mt-8 mb-0 font-display font-bold text-3xl mb-7 text-gray-700 text-center md:absolute md:left-24 md:top-36 lg:left-auto lg:mt-28">Creando cuenta</h2>
 
                 <div class="relative">
                     <i class="fa fa-user absolute text-yellow-400 text-3xl top-4 -left-9 md:-top-24 md:left-3 lg:-left-40 lg:top-6"></i>
-                    <input type="text" placeholder="usuario" required class="bg-transparent mb-5 rounded-t-2xl text-xl pt-4 font-display border-b-2 font-bold capitalize outline-none focus:border-yellow-400 transition-all duration-500 w-56 pl-2 pb-2 md:absolute md:left-14 md:-top-28 lg:-left-28 lg:top-2 lg:text-lg">
+                    <input type="text" name="username" placeholder="usuario" required class="bg-transparent mb-5 rounded-t-2xl text-xl pt-4 font-display border-b-2 font-bold capitalize outline-none focus:border-yellow-400 transition-all duration-500 w-56 pl-2 pb-2 md:absolute md:left-14 md:-top-28 lg:-left-28 lg:top-2 lg:text-lg">
                 </div>
 
                 <div class="relative">
                     <i class="fa fa-envelope absolute text-yellow-400 text-3xl top-4 -left-9 md:-top-7 md:left-3 lg:-left-40 lg:top-24"></i>
-                    <input type="text" placeholder="Email" required class="bg-transparent mb-5 rounded-t-2xl text-xl pt-4 font-display border-b-2 font-bold outline-none focus:border-yellow-400 transition-all duration-500 w-56 pl-2 pb-2 md:absolute md:left-14 md:-top-28 md:mt-16 lg:-left-28 lg:top-4 lg:text-lg">
+                    <input type="text" name="email" placeholder="Email" required class="bg-transparent mb-5 rounded-t-2xl text-xl pt-4 font-display border-b-2 font-bold outline-none focus:border-yellow-400 transition-all duration-500 w-56 pl-2 pb-2 md:absolute md:left-14 md:-top-28 md:mt-16 lg:-left-28 lg:top-4 lg:text-lg">
                 </div>
 
                 <div class="relative">
                     <i class="fa fa-lock absolute text-yellow-400 text-3xl top-4 -left-9 md:top-7 md:left-3 lg:-left-40 lg:top-60"></i>
-                    <input type="password" placeholder="Contraseña" required class="bg-transparent mb-2 rounded-t-2xl text-xl pt-4 font-display border-b-2 font-bold outline-none focus:border-yellow-400 transition-all duration-500 w-56 pl-2 pb-2 md:absolute md:left-14 md:-top-28 md:mt-32 lg:-left-28 lg:top-6 lg:text-lg">
+                    <input name="password" type="password" placeholder="Contraseña" required class="bg-transparent mb-2 rounded-t-2xl text-xl pt-4 font-display border-b-2 font-bold outline-none focus:border-yellow-400 transition-all duration-500 w-56 pl-2 pb-2 md:absolute md:left-14 md:-top-28 md:mt-32 lg:-left-28 lg:top-6 lg:text-lg">
                 </div>
 
                 <div class="relative mt-8">
@@ -31,7 +31,7 @@
                     <input type="password" placeholder="Confirmar contraseña" required class="bg-transparent rounded-t-2xl text-xl  border-b-2 font-display font-bold outline-none focus:border-yellow-400 transition-all duration-500 w-56 pl-2 pb-2 md:absolute md:left-14 md:-top-16 md:mt-32 lg:-left-28 lg:top-20 lg:text-lg">
                 </div>
 
-                <a href="#" class="py-4 px-14 mt-10 mb-5 bg-yellow-400 rounded-r-xl rounded-l-xl text-white font-bold text-lg hover:bg-yellow-600 transition duration-500 shadow md:absolute md:left-16 md:bottom-0 lg:bottom-0 lg:left-auto">Registrarse</a>
+                <button type="submit" class="py-4 px-14 mt-10 mb-5 bg-yellow-400 rounded-r-xl rounded-l-xl text-white font-bold text-lg hover:bg-yellow-600 transition duration-500 shadow md:absolute md:left-16 md:bottom-0 lg:bottom-0 lg:left-auto">Registrarse</button>
             </form>
         </div>
     </div>
