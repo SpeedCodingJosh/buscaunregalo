@@ -43,7 +43,6 @@ const isAuthenticated =  async (req, res = response, next) => {
 
     }
     else {
-        console.log(error);
         res.clearCookie('jwt');
         res.redirect('/login');
     }
