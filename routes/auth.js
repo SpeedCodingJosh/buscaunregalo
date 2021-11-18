@@ -32,7 +32,9 @@ router.get('/register', (req, res) => {
 router.post('/register', [
     check('email', 'Un correo válido es obligatorio').isEmail(),
     check('password', 'La contraseña es obligatoria').not().isEmpty(),
+    check('password_confirm', 'Necesita confirmar la contraseña').not().isEmpty(),
     check('username', 'El usuario no puede estar vacío').not().isEmpty(),
+    check('password_confirm', 'Las contraseñas no coinciden').exists().custom((value, { req }) => value === req.body.password),
     validateFields
 ], register);
 
