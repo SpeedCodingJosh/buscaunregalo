@@ -15,16 +15,40 @@
 
     <!-- Mobile Display -->
     <div class="block lg:hidden w-full lg:w-4/6">
-        <a href="#" class="link font-bold" id="mobile-menu"><h1 class="text-right relative top-1 right-10 w-full text-3xl"><i class="fas fa-bars"></i></h1></a>
-        {{!-- <ul class="mobile-links hidden w-full absolute z-50 left-0 text-center bg-gray-200">
+        <a href="#" class="mobile-menu font-bold absolute right-7 top-3 text-2xl"><i class="fas fa-bars"></i></a>
+        <div class="mobile-links bg-black absolute w-full h-full top-0 z-10 opacity-90 hidden"></div>
+        <ul class="mobile-links w-80 h-full right-0 z-50 top-0 bg-white absolute hidden">
 
-            <li><a href="/login" class="text-black block px-5 py-1 font-bold transition duration-500 text-lg hover:bg-gray-200 rounded-r-2xl rounded-l-2xl absolute right-3 lg:right-10 top-3">Login</a></li>
+            <button id="closeBtn" class="text-4xl absolute left-6 top-4 border-none"><i class="far fa-times-circle"></i></i></button>
 
-            <li><a href="/favorites" class="text-black block px-5 py-1 font-bold transition duration-500 text-lg hover:bg-gray-200 rounded-r-2xl rounded-l-2xl absolute right-24 lg:right-36 top-3">Favoritos</a></li>
+            <li><a href="/" class="text-black block px-5 py-1 font-bold transition duration-500 text-2xl hover:bg-gray-200 rounded-r-2xl rounded-l-2xl right-72 lg:right-96 top-3 text-center mt-16">Inicio</a></li>
 
-            <li><a href="/profile" class="text-black block px-5 py-1 font-bold transition duration-500 text-lg hover:bg-gray-200 rounded-r-2xl rounded-l-2xl absolute right-52 lg:right-72 top-3">Perfil</a></li>
+            <li><a href="/login" class="text-black block px-5 py-1 font-bold transition duration-500 text-2xl hover:bg-gray-200 rounded-r-2xl rounded-l-2xl right-3 text-center mt-5">Login</a></li>
 
-            <li><a href="/" class="text-black block px-5 py-1 font-bold transition duration-500 text-lg hover:bg-gray-200 rounded-r-2xl rounded-l-2xl absolute right-72 lg:right-96 top-3">Inicio</a></li>
-        </ul> --}}
+            <li><a href="/profile" class="text-black block px-5 py-1 font-bold transition duration-500 text-2xl hover:bg-gray-200 rounded-r-2xl rounded-l-2xl right-52 lg:right-72 top-3 text-center mt-5">Perfil</a></li>
+
+            <li><a href="/favorites" class="text-black block px-5 py-1 font-bold transition duration-500 text-2xl hover:bg-gray-200 rounded-r-2xl rounded-l-2xl right-24 lg:right-36 top-3 text-center mt-5">Favoritos</a></li>
+
+            <li><a href="#" class="text-black block px-5 py-1 font-bold transition duration-500 text-2xl hover:bg-gray-200 rounded-r-2xl rounded-l-2xl right-24 lg:right-36 top-3 text-center mt-5">Grupos</a></li>
+        </ul>
     </div>
 </nav>
+
+<script>
+    const menuBtn = document.querySelector('.mobile-menu');
+    const closeBtn = document.getElementById('closeBtn');
+
+    menuBtn.addEventListener('click', e => {
+        const menu = document.querySelectorAll('.mobile-links');
+        menu.forEach(e => {
+            e.classList.toggle('hidden');
+        })
+    });
+
+    closeBtn.addEventListener('click', () => {
+        const menu = document.querySelectorAll('.mobile-links');
+        menu.forEach(e => {
+            e.classList.toggle('hidden');
+        })
+    });
+</script>
