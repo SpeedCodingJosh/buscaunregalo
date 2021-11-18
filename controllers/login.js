@@ -1,5 +1,8 @@
 const bcryptjs = require('bcryptjs');
 const { generateJWT } = require('../helpers/generate-jwt');
+const { showError, showInfo, successfulRegistration } = require('../helpers/alert');
+const registerPath = 'register';
+const loginPath = 'login';
 
 const login = async (req, res) => {
     
@@ -86,35 +89,27 @@ const register = (req, res) => {
                     console.log(err);
                     if(err.errno === 1062)
                         // Validate if email already exists
-                        if(err.sqlMessage.includes('users.email'))
-                            return res.json({code: 1062, error: 'Este correo ya existe, por favor elija otro.'});
+                        if(err.sqlMessage.includes('email'))
+                            return showError(req, res, registerPath, 'Este correo ya existe, por favor elija otro.');
                         // Validate if username already exists
-                        else if(err.sqlMessage.includes('users.username'))
-                            return res.json({code: 1062, error: 'Este nombre de usuario ya existe, por favor elija otro.'});
+                        else if(err.sqlMessage.includes('username'))
+                            return showError(req, res, registerPath, 'Este nombre de usuario ya existe, por favor elija otro.');
                         else 
-                            return res.json({code: 1062, error: err.sqlMessage });
+                            return showError(req, res, registerPath, 'Error desconocido, consulte con el administrador (codigo 1062)');
+                        
                     else
-                        return res.json({code: 500, error: err});
+                        return showError(req, res, registerPath, 'Error desconocido, consulte con el administrador (codigo 500)');
                 }
 
-                return res.json({
-                    code: 200,
-                    msg: 'Created user',
-                    username,
-                    rows
-                });
-
+                successfulRegistration(req, res, loginPath);
+                // return res.render(loginPath);
             });
         });
 
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({
-            msg: 'Hubo un problema con la respuesta del servidor, intente después.'
-        });
+        return showError(req, res, registerPath, 'Error desconocido, consulte con el administrador (codigo 500)');
     }
-
 };
 
 module.exports = {
