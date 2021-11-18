@@ -4,9 +4,9 @@
     {{> header }}
 </head>
 <body class="overflow-x-hidden">
-    <div>
-        {{> navbar}}
+    {{> navbar}}
 
+    <div>
         <div class="search-container flex items-center justify-center flex-col relative top-10 pb-14">
             <div class="name-page relative">
                 <img src="/assets/img/gift-logo.png" alt="name" class="mt-3 mb-3 w-44 md:mt-0 lg:mt-10 lg:w-52 lg:mb-10" data-aos="fade-up" data-aos-duration="1000">
@@ -23,7 +23,48 @@
     </div>
 
     {{> footer}}
+    <script>
+        const result = document.getElementById('result');
+        const filter = document.getElementById('filter');
+        const listItems = [];
 
-    <!-- <script src="../helpers/search.js"></script> -->
+        getData();
+
+        filter.addEventListener('input', (e) => filterData(e.target.value));
+        async function getData(){
+            const res = await fetch('https://randomuser.me/api?results=50');
+            const { results } = await res.json();
+
+            results.innerHTML = '';
+            results.forEach(user => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                <button class="hover:bg-gray-300 w-full">
+                    <a href="/usersinfo">
+                        <li class="flex p-5 pl-8">
+                            <img src="${user.picture.large}" alt="${user.name.first}" class="rounded-full w-24 border-black border-2">
+                            <div class="user-info">
+                                <h4 class="font-bold text-xl ml-5 mt-5">${user.name.first} ${user.name.last}</h4>
+                            </div>    
+                        </li>
+                    </a>
+                </button>
+                `;
+                
+                listItems.push(li);
+                result.appendChild(li);
+            })
+        }
+
+        function filterData(searchTerm){
+            listItems.forEach(item => {
+                if (item.innerText.toLowerCase().includes(searchTerm.toLowerCase())){
+                    item.classList.remove('hide');
+                } else{
+                    item.classList.add('hide');
+                }
+            })
+        }
+    </script>
 </body>
 </html>

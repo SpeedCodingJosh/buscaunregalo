@@ -17,9 +17,7 @@ const generateJWT = (username = '') => {
                 resolve(token);
             }
         });
-
     });
-
 };
 
 module.exports = {
