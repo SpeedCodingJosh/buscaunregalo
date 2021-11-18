@@ -7,10 +7,6 @@ router.get('/', (req, res) => {
     res.render('home');
 });
 
-router.get('/usersinfo', (req, res) => {
-    res.render('../views/users/index.hbs');
-});
-
 router.get('/favorites', (req, res) => {
     res.render('../views/favorites.hbs');
 });
