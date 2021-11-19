@@ -37,7 +37,7 @@ const login = async (req, res) => {
                     const result = rows.map(({ id, name, username, email, img, sub }) => ({ id, name, username, email, img, sub }));
 
                     // Generate web token
-                    const token = await generateJWT(result[0].username);
+                    const token = await generateJWT(result[0].username, result[0].id);
 
                     const cookieOptions = {
                         expires: new Date(Date.now() + process.env.SECRET_JWT_COOKIE_EXPIRATION * 24 * 60 * 60 * 1000),
@@ -68,13 +68,15 @@ const register = (req, res) => {
 
     const { username, email, password, img = 'unknownUser.png', displayName = ''} = req.body;
 
+    console.log(img);
+
     try {
 
         req.getConnection((err, conn) => {
 
             if(err) {
                 console.log(`Error creating user: ${err}`);
-                return res.json({code: 500, error: err});
+                return res.redirect(500, '/server/error');
             }
 
             // Encrypt the password
@@ -101,13 +103,14 @@ const register = (req, res) => {
                         return showError(req, res, registerPath, 'Error desconocido, consulte con el administrador (codigo 500)');
                 }
 
-                successfulRegistration(req, res, loginPath);
+                return successfulRegistration(req, res, loginPath, 'Usuario registrado correctamente');
                 // return res.render(loginPath);
             });
         });
 
     }
     catch (error) {
+        console.log(error);
         return showError(req, res, registerPath, 'Error desconocido, consulte con el administrador (codigo 500)');
     }
 };

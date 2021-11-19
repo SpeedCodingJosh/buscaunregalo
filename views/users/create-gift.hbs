@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{> header}}
+</head>
+<body>
+    <div class="mx-auto">
+        {{> navbar }}
+
+        <div class="makeWish bg-white w-11/12 lg:w-3/6 mx-auto shadow-2xl rounded-l-3xl rounded-r-3xl relative border-b-4 border-red-500">
+            <img src="/assets/img/gift-logo.png" class="w-32 lg:w-44 mx-auto mt-10 my-5 pt-10">
+            <img src="/assets/img/ornaments.png" class="absolute w-20 -top-5 -left-3">
+            <img src="/assets/img/ornaments.png" class="absolute w-10 -bottom-4 -right-2">
+            <h1 class="font-bold text-xl text-center">¿Cual es el nombre de tu regalo?</h1>
+            <input type="text" placeholder="Nombre..." name="productName" class="font-bold flex mx-auto my-8 border-b-2 border-black py-2 pl-6 pr-10 text-center outline-none">
+            <h1 class="font-bold text-xl text-center">Ayuda a los demas con una descripcion</h1>
+            <input type="text" placeholder="Descripcion..." name="productDesc" class="my-8 font-bold mx-auto flex border-b-2 border-black py-2 px-10 text-center outline-none">
+            <h1 class="font-bold text-xl text-center">Puedes enseñarnos el regalo?</h1>
+            <input type="file" name="productImg" class="font-bold flex mx-auto my-8">
+        </div>
+    </div>
+    
+    {{> footer}}
+    {{> sweetAlert}}
+</body>
+</html>

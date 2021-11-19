@@ -22,10 +22,10 @@ const showError = (req, res, route, msg) => {
     });
 }
 
-const successfulRegistration = (req, res, route) => {
+const successfulRegistration = (req, res, route, msg) => {
     return res.render(route, {
         alert:true,
-        alertTitle: 'Usuario registrado correctamente',
+        alertTitle: msg,
         alertIcon: "success",
         showConfirmButton: true,
         timer: 2000,

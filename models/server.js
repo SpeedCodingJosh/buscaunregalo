@@ -47,8 +47,12 @@ class Server {
         
         this.app.use('/', require('../routes/webRoutes'));
         this.app.use('/', require('../routes/auth'));
+<<<<<<< HEAD
         this.app.use('/user', require('../routes/user'));
         this.app.use(uploadsPath, require('../routes/uploads'));
+=======
+        this.app.use('/users', require('../routes/users'));
+>>>>>>> b9ca5f3d7007273925aa9461cb522fd9414ea34c
     }
 
     listen () {
