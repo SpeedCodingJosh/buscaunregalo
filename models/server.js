@@ -4,6 +4,7 @@ const myconn = require('express-myconnection');
 const cors = require('cors');
 const hbs = require('hbs');
 const cookieParser = require('cookie-parser');
+const fileUpload = require('express-fileupload');
 
 const databaseOptions = {
     host: process.env.DB_HOST,
@@ -33,12 +34,21 @@ class Server {
         this.app.use(cookieParser());
         this.app.use(cors());
         this.app.use(myconn(mysql, databaseOptions, 'single'));
+
+        this.app.use(fileUpload({
+            useTempFiles: true,
+            tempFileDir: '/tmp/',
+            createParentPath: true
+        }));
     }
 
     routes () {
+        const uploadsPath = '/api/uploads';
+        
         this.app.use('/', require('../routes/webRoutes'));
         this.app.use('/', require('../routes/auth'));
         this.app.use('/user', require('../routes/user'));
+        this.app.use(uploadsPath, require('../routes/uploads'));
     }
 
     listen () {
