@@ -38,3 +38,25 @@ body{
   width: 50px;
   display: none;
 }
+
+#sendGiftInfo{
+  padding: 18px 73px;
+}
+
+#giftPhotoLabel{
+  position: absolute;
+  top: 23px;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 65px 65px;
+  border-radius: 50%;
+}
+
+#giftPhoto{
+  width: 50px;
+  display: none;
+}
+
+#plusIconCreateGift{
+  position: absolute;
+  left: 49px;
+}
