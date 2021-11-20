@@ -4,10 +4,10 @@ const { isAuthenticated } = require('../helpers/isAuthenticated');
 
 const router = Router();
 
-router.get('/create-gift', [
-    isAuthenticated
-], (req, res) => {
-    res.render('../views/users/create-gift');
+router.get('/create-gift', [isAuthenticated], (req, res) => {
+    res.render('users/create-gift', {
+        uploadGiftsPictures: process.env.UPLOADGIFTSURL
+    });
 });
 
 router.get('/:username', userProfile);
