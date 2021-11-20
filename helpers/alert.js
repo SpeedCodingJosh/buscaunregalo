@@ -6,7 +6,7 @@ const showInfo = (req, res, route, msg) => {
         alertIcon: "info",
         showConfirmButton: true,
         timer: false,
-        ruta: req.route.path
+        ruta: `/${route}`
     });
 }
 
@@ -18,7 +18,7 @@ const showError = (req, res, route, msg) => {
         alertIcon: "warning",
         showConfirmButton: true,
         timer: false,
-        ruta: req.route.path
+        ruta: `/${route}`
     });
 }
 
@@ -29,8 +29,7 @@ const successfulAlert = (req, res, route, msg) => {
         alertIcon: "success",
         showConfirmButton: true,
         timer: 2000,
-        timerProgressBar: true,
-        ruta: req.route.path
+        timerProgressBar: true
     });
 }
 

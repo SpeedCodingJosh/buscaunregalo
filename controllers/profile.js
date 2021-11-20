@@ -39,6 +39,8 @@ const getUserInfo = async (req, res = response, path, data) => {
                     return res.render(path, {
                         profilePicture: rows[0].profilePicture,
                         displayName: rows[0].profileName,
+                        username: rows[0].username,
+                        giftID: rows[0].giftID,
                         rows,
                         isAuth: req.cookies.jwt ? true : false
                     });

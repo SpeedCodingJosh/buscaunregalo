@@ -16,12 +16,6 @@ router.get('/favorites', (req, res) => {
     });
 });
 
-router.get('/wishinfo', (req, res) => {
-    res.render('../views/users/wish-info', {
-        isAuth: req.cookies.jwt ? true : false
-    });
-});
-
 router.get('/profile', [ isAuthenticated ], getProfile);
 
 router.get('/server/error', (req, res) => {

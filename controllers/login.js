@@ -13,7 +13,7 @@ const login = async (req, res) => {
 
             if(err) {
                 console.log(`Error loging user: ${err}`);
-                return res.redirect(500, '/server/error');
+                return res.redirect('/server/error');
             }
 
             // Login
@@ -22,7 +22,7 @@ const login = async (req, res) => {
                 
                 if(err) {
                     console.log(err);
-                    return res.redirect(500, '/server/error');
+                    return res.redirect('/server/error');
                 }
 
                 if(rows.length > 0) {
@@ -74,7 +74,7 @@ const register = (req, res) => {
 
             if(err) {
                 console.log(`Error creating user: ${err}`);
-                return res.redirect(500, '/server/error');
+                return res.redirect('/server/error');
             }
 
             // Encrypt the password
