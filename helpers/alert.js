@@ -22,7 +22,7 @@ const showError = (req, res, route, msg) => {
     });
 }
 
-const successfulRegistration = (req, res, route, msg) => {
+const successfulAlert = (req, res, route, msg) => {
     return res.render(route, {
         alert:true,
         alertTitle: msg,
@@ -37,5 +37,5 @@ const successfulRegistration = (req, res, route, msg) => {
 module.exports = {
     showInfo,
     showError,
-    successfulRegistration
+    successfulAlert
 }

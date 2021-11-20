@@ -22,10 +22,19 @@ body{
   display: none;
 }
 
-label{
+.changePhotoLabel{
   position: absolute;
   top: 23px;
   background-color: rgba(0, 0, 0, 0.6);
   padding: 65px 65px;
   border-radius: 50%;
+}
+
+#uploadGiftLabel{
+  padding: 20px 50px;
+}
+
+#uploadGiftInput{
+  width: 50px;
+  display: none;
 }

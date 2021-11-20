@@ -1,6 +1,6 @@
 const bcryptjs = require('bcryptjs');
 const { generateJWT } = require('../helpers/generate-jwt');
-const { showError, showInfo, successfulRegistration } = require('../helpers/alert');
+const { showError, showInfo, successfulAlert } = require('../helpers/alert');
 const registerPath = 'register';
 const loginPath = 'login';
 
@@ -103,7 +103,7 @@ const register = (req, res) => {
                         return showError(req, res, registerPath, 'Error desconocido, consulte con el administrador (codigo 500)');
                 }
 
-                return successfulRegistration(req, res, loginPath, 'Usuario registrado correctamente');
+                return successfulAlert(req, res, loginPath, 'Usuario registrado correctamente');
                 // return res.render(loginPath);
             });
         });

@@ -28,7 +28,7 @@ class Server {
         this.app.set('view engine', 'hbs');
         hbs.registerPartials(`${__dirname}/../views/partials`);
 
-        this.app.use(express.static('public'));
+        this.app.use(express.static('../public'));
         this.app.use(express.urlencoded({extended:false}));
         this.app.use(express.json());
         this.app.use(cookieParser());
@@ -47,7 +47,7 @@ class Server {
         
         this.app.use('/', require('../routes/webRoutes'));
         this.app.use('/', require('../routes/auth'));
-        this.app.use('/user', require('../routes/user'));
+        this.app.use('/users', require('../routes/users'));
         this.app.use(uploadsPath, require('../routes/uploads'));
     }
 

@@ -1,4 +1,4 @@
-const { showError, showInfo, successfulRegistration } = require('../helpers/alert');
+const { showError, showInfo, successfulAlert } = require('../helpers/alert');
 const giftPath = '../views/users/create-gift';
 const userProfile = 'profile';
 
@@ -26,7 +26,7 @@ const createPublicGift = async (req, res) => {
                     return showError(req, res, registerPath, 'Error desconocido, consulte con el administrador (codigo 500)');
                 }
 
-                return successfulRegistration(req, res, userProfile, 'Nuevo regalo creado correctamente.');
+                return successfulAlert(req, res, userProfile, 'Nuevo regalo creado correctamente.');
                 // return res.render(loginPath);
             });
 
