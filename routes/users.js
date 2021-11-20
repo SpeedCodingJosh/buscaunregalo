@@ -12,7 +12,7 @@ router.get('/create-gift', [
 });
 
 router.get('/:username', (req, res) => {
-    res.render('../views/users/index.hbs');
+    res.render('../views/users/index');
 });
 
 module.exports = router;
