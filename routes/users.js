@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
+const { userProfile } = require('../controllers/profile');
 const { isAuthenticated } = require('../helpers/isAuthenticated');
 const validateFields = require('../middlewares/validateFields');
 
@@ -11,8 +12,6 @@ router.get('/create-gift', [
     res.render('../views/users/create-gift');
 });
 
-router.get('/:username', (req, res) => {
-    res.render('../views/users/index');
-});
+router.get('/:username', userProfile);
 
 module.exports = router;

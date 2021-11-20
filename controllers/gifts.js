@@ -20,7 +20,7 @@ const createPublicGift = async (req, res) => {
             }
 
             // Store new user
-            const createGift = `INSERT INTO gifts (name, desc, img, user_id) values ('${productName}', '${productDesc}', '${productImg}', ${id})`;
+            const createGift = `INSERT INTO gifts (name, description, img, user_id) values ('${productName}', '${productDesc}', '${productImg}', ${id})`;
             conn.query(createGift, (err, rows) => {
                 
                 if(err) {
