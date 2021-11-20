@@ -2,44 +2,46 @@ const { response } = require("express");
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 
-const { showError,
-        successfulAlert } = require("../helpers/alert");
-const cargarArchivo = (req, res = response) => {
+const uploadUserPictures = (req, res = response) => {
+    return uploadPictures(req, res, 'users');
+}
 
-    const route = req.route.path.substring(1);
+const uploadGiftPictures = (req, res = response) => {
+    return uploadPictures(req, res, 'gifts');
+}
 
+const uploadPictures = (req, res = response, destiny = 'users') => {
     // Verificar si no hay archivos
-    if (!req.files || Object.keys(req.files).length === 0 || !req.files.productImg){
-        return showError(req, res, route, 'Error al subir la imagen');
+    if (!req.files || Object.keys(req.files).length === 0 || !req.files.productImg) {
+        console.log(`Err: ${req.files}`);
+        return res.json({ code: 400, msg: 'Error, no se envió ningún archivo.'});
     }
 
-    const {productImg} = req.files;
+    const { productImg } = req.files;
     const separateName = productImg.name.split('.');
     const extension = separateName[separateName.length - 1];
 
     // Validar las extensiones permitidas
-    const allowedExtensions = ['PNG', 'JPG'];
+    const allowedExtensions = ['PNG', 'JPG', 'png', 'jpg', 'jepg'];
 
-    if (!allowedExtensions.includes(extension)){
-        res.json({msg: 'Archivo no permitido'});
-        return showError(req, res, route, 'Archivo no permitido');
+    if (!allowedExtensions.includes(extension)) {
+        return res.json({ code: 400, msg: 'La extensión del archivo no es permitida.'});
     }
 
     // Generar nombre unico de la imagen
     // Subir el archivo al path correspondiente
     const hashName = uuidv4() + '.' + extension;
-    const uploadPath = path.join(__dirname, '../uploads/gifts', hashName);
+    const uploadPath = path.join(__dirname, `../public/uploads/${destiny}`, hashName);
     productImg.mv(uploadPath, (err) => {
         if (err){
-            return showError(req, res, route, 'Error desconocido, consulte con el administrador (codigo 500)');
+            return res.json({ code: 500, msg: 'Error al subir el archivo (MV).'});
         }
 
-        res.json({msg: 'File upload to ' + uploadPath});
-        successfulAlert(req, res, route, 'Se subio el archivo correctamente');
-        return res.redirect('/profile');
+        return res.json({ code: 200, result: hashName});
     });
 }
 
 module.exports = {
-    cargarArchivo
+    uploadUserPictures,
+    uploadGiftPictures
 }

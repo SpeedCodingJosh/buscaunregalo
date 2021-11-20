@@ -26,7 +26,9 @@ router.post('/login', [
 ], login);
 
 router.get('/register', (req, res) => {
-    res.render('register');
+    res.render('register', {
+        uploadImgPath: process.env.UPLOADURL
+    });
 });
 
 router.post('/register', [

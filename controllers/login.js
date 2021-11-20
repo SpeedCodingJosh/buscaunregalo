@@ -68,8 +68,6 @@ const register = (req, res) => {
 
     const { username, email, password, img = 'unknownUser.png', displayName = ''} = req.body;
 
-    console.log(img);
-
     try {
 
         req.getConnection((err, conn) => {

@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const { isAuthenticated } = require('../helpers/isAuthenticated');
+const { getProfile } = require('../controllers/profile');
 
 const router = Router();
 
@@ -15,9 +16,7 @@ router.get('/wishinfo', (req, res) => {
     res.render('../views/users/wish-info.hbs');
 });
 
-router.get('/profile', [ isAuthenticated ], (req, res) => {
-    res.render('profile');
-});
+router.get('/profile', [ isAuthenticated ], getProfile);
 
 router.get('/server/error', (req, res) => {
     res.render('server-error');
