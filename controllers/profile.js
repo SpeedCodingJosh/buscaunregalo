@@ -39,7 +39,8 @@ const getUserInfo = async (req, res = response, path, data) => {
                     return res.render(path, {
                         profilePicture: rows[0].profilePicture,
                         displayName: rows[0].profileName,
-                        rows
+                        rows,
+                        isAuth: req.cookies.jwt ? true : false
                     });
                 }
 
@@ -57,7 +58,8 @@ const getUserInfo = async (req, res = response, path, data) => {
                         if(rows.length > 0) {
                             return res.render(path, {
                                 profilePicture: rows[0].img,
-                                displayName: rows[0].name
+                                displayName: rows[0].name,
+                                isAuth: req.cookies.jwt ? true : false
                             });
                         }
 

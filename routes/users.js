@@ -6,7 +6,8 @@ const router = Router();
 
 router.get('/create-gift', [isAuthenticated], (req, res) => {
     res.render('users/create-gift', {
-        uploadGiftsPictures: process.env.UPLOADGIFTSURL
+        uploadGiftsPictures: process.env.UPLOADGIFTSURL,
+        isAuth: true
     });
 });
 

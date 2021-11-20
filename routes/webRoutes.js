@@ -5,15 +5,21 @@ const { getProfile } = require('../controllers/profile');
 const router = Router();
 
 router.get('/', (req, res) => {
-    res.render('home');
+    res.render('home', {
+        isAuth: req.cookies.jwt ? true : false
+    });
 });
 
 router.get('/favorites', (req, res) => {
-    res.render('../views/favorites.hbs');
+    res.render('../views/favorites', {
+        isAuth: req.cookies.jwt ? true : false
+    });
 });
 
 router.get('/wishinfo', (req, res) => {
-    res.render('../views/users/wish-info.hbs');
+    res.render('../views/users/wish-info', {
+        isAuth: req.cookies.jwt ? true : false
+    });
 });
 
 router.get('/profile', [ isAuthenticated ], getProfile);
