@@ -1,13 +1,11 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { register, login } = require('../controllers/login'); 
-const { isAuthenticated } = require('../helpers/isAuthenticated');
 const validateFields = require('../middlewares/validateFields');
 
 const router = Router();
 
 router.get('/login', (req, res) => {
-    console.log(req.cookies);
     if(req.cookies.jwt)
         res.redirect('/profile');
     else
@@ -26,9 +24,13 @@ router.post('/login', [
 ], login);
 
 router.get('/register', (req, res) => {
-    res.render('register', {
-        uploadImgPath: process.env.UPLOADURL,
-    });
+    if(req.cookies.jwt)
+        res.redirect('/profile');
+    else {
+        res.render('register', {
+            uploadImgPath: process.env.UPLOADURL,
+        });
+    }
 });
 
 router.post('/register', [

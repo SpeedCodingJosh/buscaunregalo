@@ -1,15 +1,21 @@
-<nav class="bg-white border-black border-b-2 flex justify-between lg:justify-start items-center h-14">
+<nav class="bg-white border-black border-b-2 flex justify-between lg:justify-end items-center h-14">
     <!-- Standart Display -->
     <div class="lg:block hidden w-1/6 md:w-4/6">
-        <ul class="menu flex items-center justify-center gap-5">
+        <ul class="menu flex items-end justify-end gap-5">
 
-            <li><a href="/login" class="text-black block px-5 py-1 font-bold transition duration-500 text-lg hover:bg-gray-200 rounded-r-2xl rounded-l-2xl absolute right-3 lg:right-10 top-3" data-aos="zoom-in" data-aos-duration="800">Login</a></li>
+            <li><a href="/" class="text-black block px-5 py-1 font-bold transition duration-500 text-lg hover:bg-gray-200 rounded-r-2xl rounded-l-2xl" data-aos="zoom-in" data-aos-duration="800">Inicio</a></li>
 
-            <li><a href="/favorites" class="text-black block px-5 py-1 font-bold transition duration-500 text-lg hover:bg-gray-200 rounded-r-2xl rounded-l-2xl absolute right-24 lg:right-36 top-3" data-aos="zoom-in" data-aos-duration="800">Favoritos</a></li>
+            {{#if isAuth}}
+            <li><a href="/profile" class="text-black block px-5 py-1 font-bold transition duration-500 text-lg hover:bg-gray-200 rounded-r-2xl rounded-l-2xl" data-aos="zoom-in" data-aos-duration="800">Perfil</a></li>
 
-            <li><a href="/profile" class="text-black block px-5 py-1 font-bold transition duration-500 text-lg hover:bg-gray-200 rounded-r-2xl rounded-l-2xl absolute right-52 lg:right-72 top-3" data-aos="zoom-in" data-aos-duration="800">Perfil</a></li>
+            <li><a href="/favorites" class="text-black block px-5 py-1 font-bold transition duration-500 text-lg hover:bg-gray-200 rounded-r-2xl rounded-l-2xl" data-aos="zoom-in" data-aos-duration="800">Favoritos</a></li>
 
-            <li><a href="/" class="text-black block px-5 py-1 font-bold transition duration-500 text-lg hover:bg-gray-200 rounded-r-2xl rounded-l-2xl absolute right-72 lg:right-96 top-3" data-aos="zoom-in" data-aos-duration="800">Inicio</a></li>
+            <li><a href="/logout" class="text-black block px-5 py-1 font-bold transition duration-500 text-lg hover:bg-gray-200 rounded-r-2xl rounded-l-2xl" data-aos="zoom-in" data-aos-duration="800">Logout</a></li>
+            {{/if}}
+
+            {{#unless isAuth}}
+            <li><a href="/login" class="text-black block px-5 py-1 font-bold transition duration-500 text-lg hover:bg-gray-200 rounded-r-2xl rounded-l-2xl" data-aos="zoom-in" data-aos-duration="800">Login</a></li>
+            {{/unless}}
         </ul>
     </div>
 
@@ -21,13 +27,15 @@
 
             <button id="closeBtn" class="text-4xl absolute left-6 top-4 border-none"><i class="far fa-times-circle"></i></i></button>
 
-            <li><a href="/" class="text-black block px-5 py-1 font-bold transition duration-500 text-2xl hover:bg-gray-200 rounded-r-2xl rounded-l-2xl right-72 lg:right-96 top-3 text-center mt-16">Inicio</a></li>
+            <li><a href="/" class="text-black block px-5 py-1 font-bold transition duration-500 text-2xl hover:bg-gray-200 rounded-r-2xl rounded-l-2xl text-center mt-16">Inicio</a></li>
 
-            <li><a href="/login" class="text-black block px-5 py-1 font-bold transition duration-500 text-2xl hover:bg-gray-200 rounded-r-2xl rounded-l-2xl right-3 text-center mt-5">Login</a></li>
+            <li><a href="/profile" class="text-black block px-5 py-1 font-bold transition duration-500 text-2xl hover:bg-gray-200 rounded-r-2xl rounded-l-2xl text-center mt-5">Perfil</a></li>
 
-            <li><a href="/profile" class="text-black block px-5 py-1 font-bold transition duration-500 text-2xl hover:bg-gray-200 rounded-r-2xl rounded-l-2xl right-52 lg:right-72 top-3 text-center mt-5">Perfil</a></li>
+            <li><a href="/favorites" class="text-black block px-5 py-1 font-bold transition duration-500 text-2xl hover:bg-gray-200 rounded-r-2xl rounded-l-2xl text-center mt-5">Favoritos</a></li>
 
-            <li><a href="/favorites" class="text-black block px-5 py-1 font-bold transition duration-500 text-2xl hover:bg-gray-200 rounded-r-2xl rounded-l-2xl right-24 lg:right-36 top-3 text-center mt-5">Favoritos</a></li>
+            <li><a href="/login" class="text-black block px-5 py-1 font-bold transition duration-500 text-2xl hover:bg-gray-200 rounded-r-2xl rounded-l-2xl text-center mt-5">Login</a></li>
+
+            <li><a href="/logout" class="text-black block px-5 py-1 font-bold transition duration-500 text-2xl hover:bg-gray-200 rounded-r-2xl rounded-l-2xl text-center mt-5">Cerrar sesión</a></li>
         </ul>
     </div>
 </nav> 
