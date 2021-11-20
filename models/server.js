@@ -26,9 +26,9 @@ class Server {
 
     middlewares () {
         this.app.set('view engine', 'hbs');
-        hbs.registerPartials(`${__dirname}/../views/partials`);
+        hbs.registerPartials(`${__dirname} /../views/partials`);
 
-        this.app.use(express.static('../public'));
+        this.app.use(express.static('public'));
         this.app.use(express.urlencoded({extended:false}));
         this.app.use(express.json());
         this.app.use(cookieParser());
