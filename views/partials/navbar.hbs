@@ -28,14 +28,18 @@
             <button id="closeBtn" class="text-4xl absolute left-6 top-4 border-none"><i class="far fa-times-circle"></i></i></button>
 
             <li><a href="/" class="text-black block px-5 py-1 font-bold transition duration-500 text-2xl hover:bg-gray-200 rounded-r-2xl rounded-l-2xl text-center mt-16">Inicio</a></li>
-
+            
+            {{#if isAuth}}
             <li><a href="/profile" class="text-black block px-5 py-1 font-bold transition duration-500 text-2xl hover:bg-gray-200 rounded-r-2xl rounded-l-2xl text-center mt-5">Perfil</a></li>
 
             <li><a href="/favorites" class="text-black block px-5 py-1 font-bold transition duration-500 text-2xl hover:bg-gray-200 rounded-r-2xl rounded-l-2xl text-center mt-5">Favoritos</a></li>
-
-            <li><a href="/login" class="text-black block px-5 py-1 font-bold transition duration-500 text-2xl hover:bg-gray-200 rounded-r-2xl rounded-l-2xl text-center mt-5">Login</a></li>
-
+            
             <li><a href="/logout" class="text-black block px-5 py-1 font-bold transition duration-500 text-2xl hover:bg-gray-200 rounded-r-2xl rounded-l-2xl text-center mt-5">Cerrar sesión</a></li>
+            {{/if}}
+
+            {{#unless isAuth}}
+            <li><a href="/login" class="text-black block px-5 py-1 font-bold transition duration-500 text-2xl hover:bg-gray-200 rounded-r-2xl rounded-l-2xl text-center mt-5">Login</a></li>
+            {{/unless}}
         </ul>
     </div>
 </nav> 

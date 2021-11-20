@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {{> header}}
-    <link rel="stylesheet" href="/assets/css/style.css">
+    {{> header parenting="../" }}
 </head>
 <body>
     <div class="mx-auto">
         {{> navbar }}
                 {{!-- <img src="/assets/img/user-img.png" class="w-32 lg:w-44 mx-auto mt-10 my-5 pt-10 "> --}}
 
-        <form>
+        <form method="POST" action="/users/create-gift">
             <div class="makeWish bg-white w-11/12 lg:w-3/6 mx-auto shadow-2xl rounded-l-3xl rounded-r-3xl relative border-b-4 border-red-500">
                 <div class="w-32 h-32 lg:w-40 lg:h-40 mx-auto mt-10 my-5 pt-10 opacity-100 rounded-full bg-black" style="background: url(/assets/img/gift-logo.png) center; background-size: cover; position: relative; top: 40px;" id="img">
                     <h1 class="text-white text-center relative top-16 font-bold z-50">Subir Archivo</h1>
@@ -32,6 +31,7 @@
                     <button class="bg-green-400 rounded-l-2xl rounded-r-2xl" id="sendGiftInfo"><a href="/">Enviar</a></button>
                 </div>
             </div>
+            <input type="hidden" id="productImg" name="productImg" value="" />
         </form>
     </div>
     
@@ -41,12 +41,12 @@
     <script>
         const input = document.querySelector('#giftPhoto');
         const giftPicture = document.querySelector('#img');
+        const productImg = document.querySelector('#productImg');
 
         input.addEventListener('input', async(e) => {
             if(e.target.files && e.target.files.length > 0) {
                 const data = new FormData();
-                data.append('pictureImg', e.target.files[0]);
-                console.log(e.target.files[0]);
+                data.append('productImg', e.target.files[0]);
 
                 const uploadPath = await fetch('{{ uploadGiftsPictures }}', {
                     method: 'POST',
@@ -54,8 +54,9 @@
                 });
 
                 const response = await uploadPath.json();
-                giftPicture.value = response.result;
-                console.log(response);
+                giftPicture.style.background = `url(../uploads/gifts/${response.result}) center`;
+                giftPicture.style.backgroundSize = `cover`;
+                productImg.value = response.result;
             }
         });
     </script>

@@ -1,6 +1,8 @@
 const { Router } = require('express');
 const { userProfile } = require('../controllers/profile');
 const { isAuthenticated } = require('../helpers/isAuthenticated');
+const { validateJWT } = require('../helpers/validate-jtw');
+const { createPublicGift } = require('../controllers/gifts');
 
 const router = Router();
 
@@ -10,6 +12,8 @@ router.get('/create-gift', [isAuthenticated], (req, res) => {
         isAuth: true
     });
 });
+
+router.post('/create-gift', [validateJWT], createPublicGift);
 
 router.get('/:username', userProfile);
 

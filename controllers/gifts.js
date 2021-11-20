@@ -35,7 +35,7 @@ const createPublicGift = async (req, res) => {
         });
     }
     catch (error) {
-        console.log(err);
+        console.log(error);
         return showError(req, res, registerPath, 'Error desconocido, consulte con el administrador (codigo 500)');
     }
 
