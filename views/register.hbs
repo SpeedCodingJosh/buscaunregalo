@@ -8,7 +8,7 @@
         {{> navbar }}
         <div class="login-panel w-screen h-screen flex flex-col justify-center items-center md:my-5">
             <form action="/register" method="POST" class="flex flex-col justify-center items-center absolute bg-white rounded-t-3xl rounded-b-3xl bg-opacity-100 shadow-2xl bg-white w-96 md:h-80 md:w-10/12 lg:w-2/4 lg:top-32 lg:p-80 lg:pb-80">
-                <img src="assets/img/undraw_male_avatar_323b.svg" class="registerImg w-36 mt-5 md:mt-14 lg:mt-16 md:absolute md:left-20 md:w-36 md:-top-10 lg:w-32 lg:left-auto rounded-full cursor-pointer">
+                <div class="registerImg w-36 h-36 mt-5 md:mt-14 lg:mt-16 md:absolute md:left-20 md:w-36 md:h-36 md:-top-10 lg:w-32 lg:h-32 lg:left-auto rounded-full cursor-pointer" style="background: url(assets/img/undraw_male_avatar_323b.svg) center; background-size: cover;"></div>
                 <h2 class="mt-8 mb-0 font-display font-bold text-3xl mb-7 text-gray-700 text-center md:absolute md:left-24 md:top-36 lg:left-auto lg:mt-8">Registrarse</h2>
                 <label class="changePhotoLabel cursor-pointer">
                     <input type="file" id="photoInput">
@@ -59,14 +59,14 @@
                 const data = new FormData();
                 data.append('productImg', e.target.files[0]);
 
-                console.log(e.target.files[0]);
                 const upload = await fetch('{{ uploadImgPath }}', {
                     method: 'POST',
                     body: data
                 });
 
                 const response = await upload.json();
-                registerImg.setAttribute('src', `uploads/users/${response.result}`);
+                registerImg.style.background = `url(uploads/users/${response.result}) center`;
+                registerImg.style.backgroundSize = `cover`;
                 productImg.value = response.result;
             }
         });
