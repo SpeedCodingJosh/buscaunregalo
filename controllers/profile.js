@@ -3,52 +3,20 @@ const jwt = require('jsonwebtoken');
 const { promisify } = require('util'); 
 
 const getProfile = async (req, res = response) => {
-    
-    try {
-
-        const { id } = await promisify(jwt.verify)(req.cookies.jwt, process.env.SECRET_JWT_KEY);
-
-        req.getConnection((err, conn) => {
-
-            if(err) {
-                console.log(`Error getting user profile: ${err}`);
-                return res.redirect('/server/error');
-            }
-
-            // Login
-            const loginUser = `SELECT id, name, img, sub, visible FROM users WHERE id = ${id} AND visible = 1`;
-            conn.query(loginUser, async (err, rows) => {
-                
-                if(err) {
-                    console.log(err);
-                    return res.redirect('/server/error');
-                }
-
-                if(rows.length > 0) {
-                    return res.render('profile', {
-                        profilePicture: rows[0].img,
-                        displayName: rows[0].name
-                    });
-                }
-
-                else {
-                    return res.redirect('login');
-                }
-
-            });
-        });
-    }
-    catch (error) {
-        console.log(error);
-        res.status(500).redirect('/login');
-    }
+    const { username } = await promisify(jwt.verify)(req.cookies.jwt, process.env.SECRET_JWT_KEY);
+    return getUserInfo(req, res, process.env.MY_USER_PROFILE_ROUTE, { username });
 };
 
 const userProfile = async (req, res = response) => {
+    const { username } = req.params;
+    return getUserInfo(req, res, process.env.OTHER_USER_PROFILE_ROUTE, { username });
+};
+
+const getUserInfo = async (req, res = response, path, data) => {
     
     try {
 
-        const { username } = req.params;
+        const { username } = data;
 
         req.getConnection((err, conn) => {
 
@@ -68,7 +36,7 @@ const userProfile = async (req, res = response) => {
 
                 // Show user and gifts
                 if(rows.length > 0) {
-                    return res.render(process.env.OTHER_USER_PROFILE_ROUTE, {
+                    return res.render(path, {
                         profilePicture: rows[0].profilePicture,
                         displayName: rows[0].profileName,
                         rows
@@ -87,7 +55,7 @@ const userProfile = async (req, res = response) => {
 
                         // Show user and gifts
                         if(rows.length > 0) {
-                            return res.render(process.env.OTHER_USER_PROFILE_ROUTE, {
+                            return res.render(path, {
                                 profilePicture: rows[0].img,
                                 displayName: rows[0].name
                             });
