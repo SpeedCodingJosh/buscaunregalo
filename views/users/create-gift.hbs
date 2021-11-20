@@ -11,13 +11,13 @@
 
         <form>
             <div class="makeWish bg-white w-11/12 lg:w-3/6 mx-auto shadow-2xl rounded-l-3xl rounded-r-3xl relative border-b-4 border-red-500">
-                <div class="w-32 h-32 lg:w-40 lg:h-40 mx-auto mt-10 my-5 pt-10 opacity-100 rounded-full bg-black" style="background: url(/assets/img/gift-logo.png) center; background-size: cover; position: relative; top: 40px;" id="img">
+                <div class="w-32 h-32 lg:w-40 lg:h-40 mx-auto mt-10 my-5 pt-10 opacity-40 rounded-full bg-black" style="center; background-size: cover; position: relative; top: 40px;" id="img">
                     <h1 class="text-white text-center relative top-16 font-bold z-50">Subir Archivo</h1>
-                    <div class="w-32 h-32 lg:w-40 lg:h-40 mx-auto my-5 pt-10 opacity-40 rounded-full bg-black" style="position: relative; top: -88px;"></div> 
                     <label class="giftPhotoLabel cursor-pointer">
                         <input type="file" id="giftPhoto">
                         <i class="fas fa-plus text-7xl text-white top-5" id="plusIconCreateGift"></i>
                     </label>
+                    <div style="background: url(/assets/img/user-img.png); position: absolute; width: 180px; height: 180px;" id="giftPictureUploaded" class="bg-black"></div>
                 </div> 
                 <img src="/assets/img/ornaments.png" class="absolute w-20 -top-5 -left-3">
                 <img src="/assets/img/ornaments.png" class="absolute w-10 -bottom-4 -right-2">
@@ -41,11 +41,12 @@
     <script>
         const input = document.querySelector('#giftPhoto');
         const giftPicture = document.querySelector('#img');
+        const giftPictureUploaded = document.querySelector('#giftPictureUploaded');
 
         input.addEventListener('input', async(e) => {
             if(e.target.files && e.target.files.length > 0) {
                 const data = new FormData();
-                data.append('pictureImg', e.target.files[0]);
+                data.append('productImg', e.target.files[0]);
                 console.log(e.target.files[0]);
 
                 const uploadPath = await fetch('{{ uploadGiftsPictures }}', {
@@ -55,6 +56,8 @@
 
                 const response = await uploadPath.json();
                 giftPicture.value = response.result;
+                giftPictureUploaded.background = `url(uploads/gifts/${response.result}) center`;
+                giftPictureUploaded.backgroundSize = `cover`;
                 console.log(response);
             }
         });
