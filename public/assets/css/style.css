@@ -25,7 +25,7 @@ body{
 .changePhotoLabel{
   position: absolute;
   top: 23px;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.4);
   padding: 65px 65px;
   border-radius: 50%;
 }
