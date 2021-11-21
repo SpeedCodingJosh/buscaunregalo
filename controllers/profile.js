@@ -80,7 +80,42 @@ const getUserInfo = async (req, res = response, path, data) => {
     }
 };
 
+const getInitUsers = (req, res = response) => {
+
+    try {
+
+        req.getConnection((err, conn) => {
+
+            if(err) {
+                console.log(`Error getting user profile: ${err}`);
+                return res.redirect('/server/error');
+            }
+
+            // Get user profile
+            const getProfile = `SELECT id, name, username, img, visible FROM users WHERE visible = 1 ORDER BY RAND() LIMIT 5`;
+            conn.query(getProfile, async (err, rows) => {
+                
+                if(err) {
+                    console.log(err);
+                    return res.redirect('/server/error');
+                }
+
+                // Show users
+                return res.render("home", {
+                    rows,
+                    isAuth: req.cookies.jwt ? true : false
+                });
+            });
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return res.redirect('/server/error');
+    }
+};
+
 module.exports = {
     getProfile,
-    userProfile
+    userProfile,
+    getInitUsers
 }

@@ -29,30 +29,27 @@
 
         getData();
 
-        filter.addEventListener('input', (e) => filterData(e.target.value));
-        async function getData(){
-            const res = await fetch('https://randomuser.me/api?results=50');
-            const { results } = await res.json();
 
-            results.innerHTML = '';
-            results.forEach(user => {
-                const li = document.createElement('li');
+        filter.addEventListener('input', (e) => filterData(e.target.value));
+        async function getData() {
+            let li;
+            {{#each rows}}
+                li = document.createElement('li');
                 li.innerHTML = `
                 <button class="hover:bg-gray-300 w-full">
-                    <a href="/users/sycmasters">
+                    <a href="/users/{{username}}">
                         <li class="flex p-5 pl-8">
-                            <img src="${user.picture.large}" alt="${user.name.first}" class="rounded-full w-24 border-black border-2">
+                            <img src="uploads/users/{{img}}" alt="{{name}}" class="rounded-full w-24 border-black border-2">
                             <div class="user-info">
-                                <h4 class="font-bold text-xl ml-5 mt-5">${user.name.first} ${user.name.last}</h4>
+                                <h4 class="font-bold text-xl ml-5 mt-5">{{name}}</h4>
                             </div>    
                         </li>
                     </a>
                 </button>
                 `;
-                
                 listItems.push(li);
                 result.appendChild(li);
-            })
+            {{/each}}
         }
 
         function filterData(searchTerm){

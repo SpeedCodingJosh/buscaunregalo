@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{> header parenting="../../../" }}
+</head>
+<body>
+    <div class="mx-auto">
+        {{> navbar }}
+                {{!-- <img src="/assets/img/user-img.png" class="w-32 lg:w-44 mx-auto mt-10 my-5 pt-10 "> --}}
+
+        <form method="POST" action="/users/edit-gift">
+            <div class="makeWish bg-white w-11/12 lg:w-3/6 mx-auto shadow-2xl rounded-l-3xl rounded-r-3xl relative border-b-4 border-red-500">
+                <div class="w-32 h-32 lg:w-40 lg:h-40 mx-auto mt-10 my-5 pt-10 opacity-100 rounded-full bg-black" style="background: url(../../../uploads/gifts/{{giftImg}}) center; background-size: cover; position: relative; top: 40px;" id="img">
+                    <h1 class="text-white text-center relative top-16 font-bold z-50">Subir Archivo</h1>
+                    <div class="relative w-32 h-32 lg:w-40 lg:h-40 mx-auto my-5 pt-10 opacity-40 rounded-full bg-black" style="top: -88px;"></div>
+                    <label class="giftPhotoLabel cursor-pointer">
+                        <input type="file" id="giftPhoto">
+                        <i class="fas fa-plus text-7xl text-white top-5" id="plusIconCreateGift"></i>
+                    </label>
+                </div> 
+                <img src="/assets/img/ornaments.png" class="absolute w-20 -top-5 -left-3">
+                <img src="/assets/img/ornaments.png" class="absolute w-10 -bottom-4 -right-2">
+                <h1 class="font-bold text-xl text-center mt-20">¿Cual es el nombre de tu regalo?</h1>
+                <input type="text" placeholder="Nombre..." name="productName" class="font-bold flex mx-auto my-8 border-b-2 border-black py-2 pl-6 pr-10 text-left outline-none" value="{{giftName}}">
+                <h1 class="font-bold text-xl text-center">Ayuda a los demas con una descripcion</h1>
+                <div class="text-center">
+                    <textarea name="productDesc" placeholder="Descripción... (Opcional)" class="my-10 text-left pl-3 border-2 border-black w-72 h-24 font-bold pt-2 text-xl">{{giftDesc}}</textarea>
+                    <h1 class="font-bold text-md relative text-gray-400 -top-10">Quedan 150 caracteres</h1>
+                </div>
+                <div class="w-full h-20 text-center relative -mt-2">
+                    <button type="submit" class="bg-green-400 rounded-l-2xl rounded-r-2xl" id="sendGiftInfo">Enviar</button>
+                </div>
+            </div>
+            <input type="hidden" id="productImg" name="productImg" value="{{giftImg}}" />
+            <input type="hidden" id="giftID" name="giftID" value="{{giftID}}" />
+            <input type="hidden" id="username" name="username" value="{{username}}" />
+        </form>
+    </div>
+    
+    {{> footer}}
+    {{> sweetAlert}}
+
+    <script>
+        const input = document.querySelector('#giftPhoto');
+        const giftPicture = document.querySelector('#img');
+        const productImg = document.querySelector('#productImg');
+
+        input.addEventListener('input', async(e) => {
+            if(e.target.files && e.target.files.length > 0) {
+                const data = new FormData();
+                data.append('productImg', e.target.files[0]);
+
+                const uploadPath = await fetch('{{ uploadGiftsPictures }}', {
+                    method: 'POST',
+                    body: data
+                });
+
+                const response = await uploadPath.json();
+                giftPicture.style.background = `url(../../../uploads/gifts/${response.result}) center`;
+                giftPicture.style.backgroundSize = `cover`;
+                productImg.value = response.result;
+            }
+        });
+    </script>
+</body>
+</html>
