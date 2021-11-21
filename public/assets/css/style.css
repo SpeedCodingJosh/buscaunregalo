@@ -22,14 +22,6 @@ body{
   display: none;
 }
 
-.changePhotoLabel{
-  position: absolute;
-  top: 23px;
-  background-color: rgba(0, 0, 0, 0.4);
-  padding: 65px 65px;
-  border-radius: 50%;
-}
-
 #uploadGiftLabel{
   padding: 20px 50px;
 }
