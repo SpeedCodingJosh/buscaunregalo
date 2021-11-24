@@ -24,8 +24,8 @@
                 <input type="text" placeholder="Nombre..." name="productName" class="font-bold flex mx-auto my-8 border-b-2 border-black py-2 pl-6 pr-10 text-left outline-none">
                 <h1 class="font-bold text-xl text-center">Ayuda a los demas con una descripcion</h1>
                 <div class="text-center">
-                    <textarea name="productDesc" placeholder="Descripción... (Opcional)" class="my-10 text-left pl-3 border-2 border-black w-72 h-24 font-bold pt-2 text-xl"></textarea>
-                    <h1 class="font-bold text-md relative text-gray-400 -top-10">Quedan 150 caracteres</h1>
+                    <textarea name="productDesc" maxlength="150" placeholder="Descripción... (Opcional)" class="my-10 text-left pl-3 border-2 border-black w-72 h-24 font-bold pt-2 text-xl"></textarea>
+                    <h1 class="font-bold text-md relative text-gray-400 -top-10" id="descriptionCounter">Quedan 150 caracteres</h1>
                 </div>
                 <div class="w-full h-20 text-center relative -mt-2">
                     <button type="submit" class="bg-green-400 rounded-l-2xl rounded-r-2xl" id="sendGiftInfo">Enviar</button>
@@ -42,6 +42,21 @@
         const input = document.querySelector('#giftPhoto');
         const giftPicture = document.querySelector('#img');
         const productImg = document.querySelector('#productImg');
+        const description = document.querySelector('textarea');
+        const descriptionCounter = document.querySelector('#descriptionCounter');
+
+        description.addEventListener('input', (e) => {
+            const totalCharacters = e.target.value.length;
+            descriptionCounter.innerText = `Quedan ${150 - totalCharacters} carácteres.`;
+            if(150 - totalCharacters <= 50) {
+                descriptionCounter.classList.remove('text-gray-400');
+                descriptionCounter.classList.add('text-red-400');
+            }
+            if(150 - totalCharacters > 50) {
+                descriptionCounter.classList.remove('text-red-400');
+                descriptionCounter.classList.add('text-gray-400');
+            }
+        });
 
         input.addEventListener('input', async(e) => {
             if(e.target.files && e.target.files.length > 0) {
