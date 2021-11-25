@@ -19,25 +19,34 @@
 
                 <img src="assets/img/undraw_male_avatar_323b.svg" 
                      class="w-32 mt-5
-                       md:mt-14
+                       md:mt-20
                        md:absolute
-                       md:left-16
-                       md:w-44
+                       md:left-0
+                       md:ml-16
+                       md:w-40
                        md:-top-8
+                       lg:mx-0
                        lg:mt-16
                        lg:w-44
                        lg:left-auto" data-aos="zoom-in" data-aos-duration="1000">
                 
                 <h2 class="mt-7 mb-8 text-2xl font-display font-bold text-gray-700 text-center
                       md:absolute
-                      md:left-16
-                      md:top-48
+                      md:left-0
+                      md:ml-20
+                      md:top-52
+                      lg:top-48
+                      lg:mx-0
                       lg:text-4xl
                       lg:left-auto
                       lg:mt-14">Iniciar Sesion</h2>
 
-                <div class="relative">
+                <div class="relative 
+                       md:mt-32
+                       lg:mt-10">
                     <div class="relative
+                           md:right-14
+                           lg:left-0
                            lg:-top-9">
                         <i class="fa fa-user absolute text-yellow-400 text-2xl top-4 -left-9
                             md:-top-24
@@ -48,7 +57,9 @@
                     </div>
                     <input name="username" type="text" placeholder="usuario / correo" required 
                            class="bg-transparent pt-4 font-display border-b-2 font-bold capitalize outline-none focus:border-yellow-400 transition-all duration-500 w-56 pl-2 pb-2
-                            md:absolute md:left-14 md:-top-28
+                            md:absolute
+                            md:left-0
+                            md:-top-28
                             lg:text-xl
                             lg:-left-28
                             lg:top-7" data-aos="fade-up" data-aos-duration="1000">
@@ -57,6 +68,9 @@
                 <div class="relative
                         lg:mt-8">
                     <div class="relative top-1
+                        md:top-10
+                        md:right-14
+                        lg:left-0
                         lg:-top-9">
                         <i class="fa fa-lock absolute text-yellow-400 text-2xl top-10 -left-9
                             md:-top-14
@@ -68,7 +82,7 @@
                     <input type="password" name="password" placeholder="contraseña" required 
                            class="mb-10 mt-8 bg-transparent rounded-t-2xl pt-3 border-b-2 font-display font-bold capitalize outline-none focus:border-yellow-400 transition-all duration-500 w-56 pl-2 pb-2
                             md:absolute
-                            md:left-14
+                            md:left-0
                             md:-top-16
                             lg:-left-28
                             lg:top-20
@@ -76,20 +90,25 @@
                             lg:text-xl" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
                 </div>
 
+                <button type="submit" 
+                        class="py-5 mb-16 px-14 bg-yellow-400 rounded-r-xl rounded-l-xl text-white font-bold text-lg hover:bg-yellow-600 transition duration-500 shadow 
+                        md:mt-10
+                        md:ml-56
+                        md:top-40
+                        lg:mx-0
+                        lg:right-20
+                        lg:absolute
+                        lg:top-3/4
+                        lg:right-auto">Login</button>
+
                 <h1 class="absolute bottom-0 mb-5 font-bold
-                    md:right-10 
+                    md:ml-52
                     md:-bottom-3
+                    lg:mx-0
                     lg:right-auto
                     lg:-bottom-2
                     lg:mb-5
                     lg:text-xl">¿No tienes una cuenta? <a href="/register" class="text-yellow-500">Registrate aqui</a></h1>
-
-                <button type="submit" 
-                        class="py-5 mb-16 px-14 bg-yellow-400 rounded-r-xl rounded-l-xl text-white font-bold text-lg hover:bg-yellow-600 transition duration-500 shadow md:absolute
-                        md:right-20
-                        md:top-40
-                        lg:top-3/4
-                        lg:right-auto">Login</button>
             </form>
         </div>
     </div>
