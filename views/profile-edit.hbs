@@ -7,8 +7,8 @@
     <div class="mx-auto">
         {{> navbar }}
 
-        <div class="profile bg-white w-5/6 mx-auto lg:w-1/2 shadow-2xl rounded-l-2xl rounded-r-2xl h-96 md:w-1/2 mt-20">
-            <form action="/profile-edit" method="POST" class="mt-15 p-15 relative top-7">
+        <div class="profile bg-white w-5/6 mx-auto lg:w-1/2 shadow-2xl rounded-l-2xl rounded-r-2xl pb-72 md:w-1/2 mt-20">
+            <div class="mt-15 p-15 relative top-7">
                 <label class="changePhotoLabel absolute top-0 right-0 bottom-0 left-0 mx-auto cursor-pointer bg-black rounded-full top-3 bg-opacity-50 
                         md:p-20
                         md:top-2
@@ -35,10 +35,12 @@
                         <h1 class="text-white font-bold mt-2 text-xl md:text-2xl">Foto</h1>
                     </div>
                 </label>
-                <input type="text" placeholder="{{ displayName }}" class="pl-3 py-2 relative text-center top-52 font-bold text-xl flex mx-auto focus:outline-none border-b-2 border-black">
-                <button class="flex relative top-52 mx-auto mt-10 bg-blue-500 text-2xl px-5 py-2 text-white font-bold rounded-l-xl rounded-r-xl hover:bg-blue-700 transition duration-500 border-b-2 border-blue-800"><a href="/profile">Cancelar</a></button>
-            </form>
-        </div>    </div>
+                <input type="text" placeholder="Nuevo nombre..." class="pl-3 py-2 relative text-center top-52 font-bold text-xl flex mx-auto focus:outline-none border-b-2 border-black">
+                <button class="flex relative top-52 mx-auto mt-10 bg-blue-500 text-2xl px-10 py-2 text-white font-bold rounded-l-xl rounded-r-xl hover:bg-blue-700 transition duration-500 border-b-2 border-blue-800 shadow-2xl"><a href="profile">Listo</a></button>
+                <button class="flex relative top-52 mx-auto mt-5 bg-blue-500 text-2xl px-5 py-2 text-white font-bold rounded-l-xl rounded-r-xl hover:bg-blue-700 transition duration-500 border-b-2 border-blue-800 shadow-2xl"><a href="profile">Cancelar</a></button>
+            </div>
+        </div>    
+    </div>
 
     {{> footer}}
     {{> sweetAlert}}
