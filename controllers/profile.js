@@ -12,6 +12,11 @@ const userProfile = async (req, res = response) => {
     return getUserInfo(req, res, process.env.OTHER_USER_PROFILE_ROUTE, { username });
 };
 
+const editProfile = async (req, res = response) => {
+    const { username } = await promisify(jwt.verify)(req.cookies.jwt, process.env.SECRET_JWT_KEY);
+    return getUserInfo(req, res, 'profile-edit', { username });
+};
+
 const getUserInfo = async (req, res = response, path, data) => {
     
     try {
@@ -117,5 +122,6 @@ const getInitUsers = (req, res = response) => {
 module.exports = {
     getProfile,
     userProfile,
-    getInitUsers
+    getInitUsers,
+    editProfile
 }
