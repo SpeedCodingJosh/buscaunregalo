@@ -1,3 +1,4 @@
+const { rejects } = require("assert");
 const { response } = require("express");
 const jwt = require('jsonwebtoken');
 const { promisify } = require('util'); 
@@ -22,6 +23,10 @@ const getUserInfo = async (req, res = response, path, data) => {
     try {
 
         const { username } = data;
+        let id = 0;
+
+        if(req.cookies.jwt)
+            id = await promisify(jwt.verify)(req.cookies.jwt, process.env.SECRET_JWT_KEY);
 
         req.getConnection((err, conn) => {
 
@@ -39,15 +44,25 @@ const getUserInfo = async (req, res = response, path, data) => {
                     return res.redirect('/server/error');
                 }
 
+                let isInFavorite = id === 0;
+                console.log(isInFavorite);
                 // Show user and gifts
                 if(rows.length > 0) {
+                
+                    if(id !== 0)
+                        isInFavorite = await isUserOnFavorite(req, res, id.id, rows[0].id);
+
                     return res.render(path, {
+                        ownerID: id !== 0 ? id.id : false,
+                        targetID: rows[0].id,
                         profilePicture: rows[0].profilePicture,
                         displayName: rows[0].profileName,
                         username: rows[0].username,
                         giftID: rows[0].giftID,
                         rows,
-                        isAuth: req.cookies.jwt ? true : false
+                        isAuth: req.cookies.jwt ? true : false,
+                        isMine: id !== 0 && id.id === rows[0].id,
+                        inFavorites: isInFavorite
                     });
                 }
 
@@ -63,10 +78,18 @@ const getUserInfo = async (req, res = response, path, data) => {
 
                         // Show user and gifts
                         if(rows.length > 0) {
+                
+                            if(id !== 0)
+                                isInFavorite = await isUserOnFavorite(req, res, id.id, rows[0].id);
+        
                             return res.render(path, {
+                                ownerID: id !== 0 ? id.id : false,
+                                targetID: rows[0].id,
                                 profilePicture: rows[0].img,
                                 displayName: rows[0].name,
-                                isAuth: req.cookies.jwt ? true : false
+                                isAuth: req.cookies.jwt ? true : false,
+                                isMine: id !== 0 && id.id === rows[0].id,
+                                inFavorites: isInFavorite
                             });
                         }
 
@@ -83,6 +106,41 @@ const getUserInfo = async (req, res = response, path, data) => {
         console.log(error);
         return res.redirect('/server/error');
     }
+};
+
+const isUserOnFavorite = async (req, res, ownerID, targetID) => {
+    return new Promise ((resolve, rejects) => {
+        try {
+            req.getConnection((err, conn) => {
+
+                if(err) {
+                    console.log(`Error getting user profile: ${err}`);
+                    rejects(`Error getting user profile: ${err}`);
+                }
+
+                // Get user profile
+                const getFavorite = `SELECT owner_id, target_id FROM favorites WHERE owner_id = ${ownerID} AND target_id = ${targetID}`;
+                conn.query(getFavorite, async (err, rows) => {
+                    
+                    if(err) {
+                        console.log(err);
+                        rejects(`${err}`);
+                    }
+                    
+                    if(rows.length > 0) {
+                        resolve(true);
+                    }
+                    else {
+                        resolve(false);
+                    }
+                });
+            });
+        }
+        catch (error) {
+            console.log(error);
+            rejects(`${error}`);
+        }
+    });
 };
 
 const getInitUsers = (req, res = response) => {
@@ -119,9 +177,78 @@ const getInitUsers = (req, res = response) => {
     }
 };
 
+const addFavorite = (req, res = response) => {
+    
+    try {
+
+        const { ownerID, targetID } = req.body;
+
+        req.getConnection((err, conn) => {
+
+            if(err) {
+                console.log(`Error getting user profile: ${err}`);
+                return res.redirect('/server/error');
+            }
+
+            // Get user profile
+            const addToFav = `INSERT INTO favorites (owner_id, target_id) values (${ownerID}, ${targetID})`;
+            conn.query(addToFav, async (err, rows) => {
+                
+                if(err) {
+                    console.log(err);
+                    return res.redirect('/server/error');
+                }
+
+                // Show users
+                return res.redirect("/favorites");
+            });
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return res.redirect('/server/error');
+    }
+};
+
+const getFavoriteList = async (req, res = response) => {
+    
+    try {
+
+        const { id } = await promisify(jwt.verify)(req.cookies.jwt, process.env.SECRET_JWT_KEY);
+
+        req.getConnection((err, conn) => {
+
+            if(err) {
+                console.log(`Error getting user profile: ${err}`);
+                return res.redirect('/server/error');
+            }
+
+            const getFavoriteList = `SELECT f.owner_id, f.target_id, u.id, u.name, u.username, u.img FROM favorites as f INNER JOIN users as u ON u.id = f.target_id WHERE owner_id = ${id}`;
+            conn.query(getFavoriteList, async (err, rows) => {
+                
+                if(err) {
+                    console.log(err);
+                    return res.redirect('/server/error');
+                }
+
+                // Get users profiles
+                return res.render('favorites', {
+                    rows
+                });
+            });
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return res.redirect('/server/error');
+    }
+};
+
 module.exports = {
     getProfile,
     userProfile,
     getInitUsers,
-    editProfile
+    editProfile,
+    addFavorite,
+    getFavoriteList
 }

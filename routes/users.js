@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { userProfile } = require('../controllers/profile');
+const { userProfile, addFavorite } = require('../controllers/profile');
 const { isAuthenticated } = require('../helpers/isAuthenticated');
 const { createPublicGift, getPublicGiftData, editPublicGift, getSpecificGiftData, deletePublicGift } = require('../controllers/gifts');
 
@@ -11,6 +11,8 @@ router.get('/create-gift', [isAuthenticated], (req, res) => {
         isAuth: true
     });
 });
+
+router.post('/addFavorite', addFavorite);
 
 router.get('/delete-gift/:giftID', deletePublicGift);
 
