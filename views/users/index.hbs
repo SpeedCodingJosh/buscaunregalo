@@ -10,9 +10,15 @@
         <div class="wish-list-user bg-white pt-7 mt-7 w-3/4 h-72 lg:w-1/3 md:w-3/6 lg:h-80 md:h-72 block m-auto rounded-l-3xl rounded-r-3xl shadow-lg mt-14" data-aos="fade-up" data-aos-duration="1100">
             <div class="rounded-full w-24 h-24 mx-auto pt-7 pb-8 mb-3" data-aos="zoom-in" data-aos-duration="1000" style="background: url(/uploads/users/{{ profilePicture }}) center; background-size: cover;"></div>
             <h2 class="font-bold text-3xl text-center pb-5">{{ displayName }}</h2>
-            <div class="favorite-btn relative">
-                {{!-- <button class="font-bold flex mx-auto mt-5 bg-yellow-400 pl-10 lg:pl-5 pr-5 py-2 rounded-l-xl rounded-r-xl text-white text-xl hover:bg-yellow-600 transition duration 500 shadow border-b-4 border-yellow-600 hover:bg-yellow-600">Añadir a favoritos</button> --}}
-            </div>
+            <form action="/users/addFavorite" method="POST" class="favorite-btn relative">
+                {{#unless isMine}}
+                {{#unless inFavorites}}
+                <input type="hidden" name="ownerID" value="{{ownerID}}" />
+                <input type="hidden" name="targetID" value="{{targetID}}" />
+                <button type="submit" class="font-bold flex mx-auto mt-5 bg-yellow-400 pl-10 lg:pl-5 pr-5 py-2 rounded-l-xl rounded-r-xl text-white text-xl hover:bg-yellow-600 transition duration 500 shadow border-b-4 border-yellow-600 hover:bg-yellow-600 {{isMine}}">Añadir a favoritos</button>
+                {{/unless}}
+                {{/unless}}
+            </form>
         </div>
 
         <div class="lg:flex-wrap mx-auto lg:flex w-4/5 mt-16 md:flex md:flex-wrap md:content-between md:justify-center">
