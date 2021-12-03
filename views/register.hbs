@@ -132,14 +132,13 @@
 
     {{> sweetAlert}}
     {{> footer}}
+    
     <script>
-        const changePhotoLabel = document.querySelector('.changePhotoLabel');
         const registerImg = document.querySelector('.registerImg');
-        
         const input = document.querySelector('#photoInput');
         const productImg = document.querySelector('#img');
 
-        input.addEventListener('input', async (e) => {
+        input.addEventListener('input', async(e) => {
             if(e.target.files && e.target.files.length > 0) {
                 const data = new FormData();
                 data.append('productImg', e.target.files[0]);

@@ -6,7 +6,6 @@
 <body>
     <div class="mx-auto">
         {{> navbar }}
-                {{!-- <img src="/assets/img/user-img.png" class="w-32 lg:w-44 mx-auto mt-10 my-5 pt-10 "> --}}
 
         <form method="POST" action="/users/create-gift">
             <div class="makeWish bg-white w-11/12 lg:w-3/6 mx-auto shadow-2xl rounded-l-3xl rounded-r-3xl relative border-b-4 border-red-500">
@@ -42,6 +41,7 @@
         const input = document.querySelector('#giftPhoto');
         const giftPicture = document.querySelector('#img');
         const productImg = document.querySelector('#productImg');
+
         const description = document.querySelector('textarea');
         const descriptionCounter = document.querySelector('#descriptionCounter');
 
