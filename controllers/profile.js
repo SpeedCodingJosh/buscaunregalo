@@ -13,10 +13,6 @@ const userProfile = async (req, res = response) => {
     return getUserInfo(req, res, process.env.OTHER_USER_PROFILE_ROUTE, { username });
 };
 
-const editProfile = async (req, res = response) => {
-    const { username } = await promisify(jwt.verify)(req.cookies.jwt, process.env.SECRET_JWT_KEY);
-    return getUserInfo(req, res, 'profile-edit', { username });
-};
 
 const getUserInfo = async (req, res = response, path, data) => {
     
@@ -40,12 +36,11 @@ const getUserInfo = async (req, res = response, path, data) => {
             conn.query(getProfile, async (err, rows) => {
                 
                 if(err) {
-                    console.log(err);
+                    console.log(`Error on sql: ${err}`);
                     return res.redirect('/server/error');
                 }
 
                 let isInFavorite = id === 0;
-                console.log(isInFavorite);
                 // Show user and gifts
                 if(rows.length > 0) {
                 
@@ -72,7 +67,7 @@ const getUserInfo = async (req, res = response, path, data) => {
                     conn.query(getProfileOnly, async (err, rows) => {
                         
                         if(err) {
-                            console.log(err);
+                            console.log(`Error on sql no gift: ${err}`);
                             return res.redirect('/server/error');
                         }
 
@@ -103,7 +98,86 @@ const getUserInfo = async (req, res = response, path, data) => {
         });
     }
     catch (error) {
-        console.log(error);
+        console.log(`Error on catch: ${error}`);
+        if(error instanceof jwt.TokenExpiredError)
+            return res.redirect('/login');
+
+        return res.redirect('/server/error');
+    }
+};
+
+const getEditProfile = async (req, res = response) => {
+    try {
+
+        const { id } = await promisify(jwt.verify)(req.cookies.jwt, process.env.SECRET_JWT_KEY);
+
+        req.getConnection((err, conn) => {
+
+            if(err) {
+                console.log(`Error getting user profile: ${err}`);
+                return res.redirect('/server/error');
+            }
+
+            // Get user profile
+            const getProfile = `SELECT id, name, username, img, visible FROM users WHERE id = '${id}' AND visible = 1`;
+            conn.query(getProfile, async (err, rows) => {
+                
+                if(err) {
+                    console.log(`Error on sql: ${err}`);
+                    return res.redirect('/server/error');
+                }
+
+                if(rows.length > 0) {
+                    return res.render('profile-edit', {
+                        profilePicture: rows[0].img,
+                        displayName: rows[0].name,
+                        username: rows[0].username,
+                        isAuth: req.cookies.jwt ? true : false,
+                        uploadImgPath: process.env.UPLOADURL
+                    });
+                }
+            });
+        });
+    }
+    catch (error) {
+        console.log(`Error on catch: ${error}`);
+        if(error instanceof jwt.TokenExpiredError)
+            return res.redirect('/login');
+
+        return res.redirect('/server/error');
+    }
+};
+
+const postEditProfile = async (req, res = response) => {
+    try {
+
+        const { profilePicture, profileName, username } = req.body;
+
+        req.getConnection((err, conn) => {
+
+            if(err) {
+                console.log(`Error getting user profile: ${err}`);
+                return res.redirect('/server/error');
+            }
+
+            // Get user profile
+            const setProfile = `UPDATE users SET img = "${profilePicture}", name = "${profileName}" WHERE username = "${username}"`;
+            conn.query(setProfile, async (err, rows) => {
+                
+                if(err) {
+                    console.log(`Error on sql: ${err}`);
+                    return res.redirect('/server/error');
+                }
+
+                return res.redirect('/profile');
+            });
+        });
+    }
+    catch (error) {
+        console.log(`Error on catch: ${error}`);
+        if(error instanceof jwt.TokenExpiredError)
+            return res.redirect('/login');
+
         return res.redirect('/server/error');
     }
 };
@@ -248,7 +322,8 @@ module.exports = {
     getProfile,
     userProfile,
     getInitUsers,
-    editProfile,
+    getEditProfile,
+    postEditProfile,
     addFavorite,
     getFavoriteList
 }
