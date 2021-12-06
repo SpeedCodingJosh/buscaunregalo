@@ -27,6 +27,20 @@ class Server {
     middlewares () {
         this.app.set('view engine', 'hbs');
         hbs.registerPartials(`${__dirname}/../views/partials`);
+        hbs.registerHelper("match", function(context, value, options) {
+            if(context === value) {
+                return options.fn(this);
+            } else {
+                return options.inverse(this);
+            }
+        });
+        hbs.registerHelper("matchnot", function(context, value, options) {
+            if(context !== value) {
+                return options.fn(this);
+            } else {
+                return options.inverse(this);
+            }
+        });
 
         this.app.use(express.static('public'));
         this.app.use(express.urlencoded({extended:false}));

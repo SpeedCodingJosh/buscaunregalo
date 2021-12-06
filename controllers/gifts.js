@@ -12,7 +12,7 @@ const createPublicGift = async (req, res = response) => {
     try {
         const { id } = await promisify(jwt.verify)(req.cookies.jwt, process.env.SECRET_JWT_KEY);
 
-        const { productName, productDesc, productImg = 'unknownGift.png' } = req.body;
+        let { productName, productDesc, productImg = 'unknownGift.png' } = req.body;
 
         req.getConnection((err, conn) => {
             
@@ -22,6 +22,12 @@ const createPublicGift = async (req, res = response) => {
             }
 
             // Store new gift
+            productName = productName.replace("'", "");
+            productDesc = productDesc.replace("'", "");
+            productImg = productImg.replace("'", "");
+            productName = productName.replace('"', '');
+            productDesc = productDesc.replace('"', '');
+            productImg = productImg.replace('"', '');
             const createGift = `INSERT INTO gifts (name, description, img, user_id) values ('${productName}', '${productDesc}', '${productImg}', ${id})`;
             conn.query(createGift, (err, rows) => {
                 
@@ -45,7 +51,7 @@ const createPublicGift = async (req, res = response) => {
 const editPublicGift = async (req, res = response) => {
 
     try {
-        const { productName, productDesc, productImg = 'unknownGift.png', giftID, username} = req.body;
+        let { productName, productDesc, productImg = 'unknownGift.png', giftID, username} = req.body;
 
         req.getConnection((err, conn) => {
             
@@ -55,6 +61,12 @@ const editPublicGift = async (req, res = response) => {
             }
 
             // Edit gift
+            productName = productName.replace("'", "");
+            productDesc = productDesc.replace("'", "");
+            productImg = productImg.replace("'", "");
+            productName = productName.replace('"', '');
+            productDesc = productDesc.replace('"', '');
+            productImg = productImg.replace('"', '');
             const createGift = `UPDATE gifts SET name = '${productName}', description = '${productDesc}', img = '${productImg}' WHERE id = ${giftID}`;
             conn.query(createGift, (err, rows) => {
                 
@@ -132,9 +144,9 @@ const getGiftData = async (req, res = response, route) => {
                 return showError(req, res, giftPath, 'Error desconocido, consulte con el administrador (codigo 500).');
             }
 
-            // Store new gift
-            const createGift = `SELECT g.id as giftID, g.name as giftName, g.description, g.img, g.user_id, g.visible, u.id as userID, u.username, u.visible FROM gifts as g JOIN users as u ON g.user_id = u.id WHERE g.id = ${giftID} AND u.username = '${username}' AND g.visible = 1 AND u.visible = 1`;
-            conn.query(createGift, (err, rows) => {
+            // Select gift
+            const selectGift = `SELECT g.id as giftID, g.name as giftName, g.description, g.img, g.user_id, g.visible, u.id as userID, u.username, u.visible FROM gifts as g INNER JOIN users as u ON g.user_id = u.id WHERE g.id = ${giftID} AND u.username = '${username}' AND g.visible = 1 AND u.visible = 1`;
+            conn.query(selectGift, (err, rows) => {
                 
                 if(err) {
                     console.log(err);

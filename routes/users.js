@@ -2,6 +2,7 @@ const { Router } = require('express');
 const { userProfile, addFavorite } = require('../controllers/profile');
 const { isAuthenticated } = require('../helpers/isAuthenticated');
 const { createPublicGift, getPublicGiftData, editPublicGift, getSpecificGiftData, deletePublicGift } = require('../controllers/gifts');
+const { reserveGift, unreserveGift } = require('../controllers/reservation');
 
 const router = Router();
 
@@ -24,5 +25,8 @@ router.get('/:username', userProfile);
 router.get('/:username/edit-gift/:giftID', [isAuthenticated], getSpecificGiftData);
 router.get('/:username/edit-gift/:giftID', [isAuthenticated], getSpecificGiftData);
 router.get('/:username/:giftID', getPublicGiftData);
+
+router.post('/reserve', reserveGift);
+router.post('/unreserve', unreserveGift);
 
 module.exports = router;

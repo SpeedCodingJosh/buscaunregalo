@@ -32,7 +32,7 @@ const getUserInfo = async (req, res = response, path, data) => {
             }
 
             // Get user profile
-            const getProfile = `SELECT u.id, u.name as profileName, u.username, u.img as profilePicture, u.visible, g.id as giftID, g.name giftName, g.img as giftPicture, g.user_id, g.visible FROM users as u INNER JOIN gifts as g ON g.user_id = u.id WHERE u.username = '${username}' AND u.visible = 1 AND g.visible = 1`;
+            const getProfile = `SELECT u.id, u.name as profileName, u.username, u.img as profilePicture, u.visible, g.id as giftID, g.name giftName, g.img as giftPicture, g.reserved, g.user_id, g.visible FROM users as u INNER JOIN gifts as g ON g.user_id = u.id WHERE u.username = '${username}' AND u.visible = 1 AND g.visible = 1`;
             conn.query(getProfile, async (err, rows) => {
                 
                 if(err) {
@@ -46,18 +46,25 @@ const getUserInfo = async (req, res = response, path, data) => {
                 
                     if(id !== 0)
                         isInFavorite = await isUserOnFavorite(req, res, id.id, rows[0].id);
+                        
+
+                    const ownerID = id !== 0 ? id.id : id;
+                    const rowsData = rows.map((row) => ({...row, ownerID}));
 
                     return res.render(path, {
-                        ownerID: id !== 0 ? id.id : false,
+                        ownerID,
                         targetID: rows[0].id,
                         profilePicture: rows[0].profilePicture,
                         displayName: rows[0].profileName,
                         username: rows[0].username,
                         giftID: rows[0].giftID,
-                        rows,
+                        rowsData,
                         isAuth: req.cookies.jwt ? true : false,
                         isMine: id !== 0 && id.id === rows[0].id,
-                        inFavorites: isInFavorite
+                        inFavorites: isInFavorite,
+                        apartURL: process.env.APARTRESERVATIONURL,
+                        removeURL: process.env.REMOVERESERVATIONURL,
+                        reservationURL: process.env.RESERVATIONURL
                     });
                 }
 
@@ -161,11 +168,12 @@ const postEditProfile = async (req, res = response) => {
             }
 
             // Get user profile
-            const setProfile = `UPDATE users SET img = "${profilePicture}", name = "${profileName}" WHERE username = "${username}"`;
+            const setProfile = `UPDATE users SET img = '${profilePicture}', name = '${profileName}' WHERE username = '${username}'`;
             conn.query(setProfile, async (err, rows) => {
                 
                 if(err) {
                     console.log(`Error on sql: ${err}`);
+                    console.log(err);
                     return res.redirect('/server/error');
                 }
 
@@ -229,7 +237,7 @@ const getInitUsers = (req, res = response) => {
             }
 
             // Get user profile
-            const getProfile = `SELECT id, name, username, img, visible FROM users WHERE visible = 1 ORDER BY RAND() LIMIT 5`;
+            const getProfile = `SELECT id, name, username, img, visible FROM users WHERE visible = 1 ORDER BY RAND()`;
             conn.query(getProfile, async (err, rows) => {
                 
                 if(err) {
